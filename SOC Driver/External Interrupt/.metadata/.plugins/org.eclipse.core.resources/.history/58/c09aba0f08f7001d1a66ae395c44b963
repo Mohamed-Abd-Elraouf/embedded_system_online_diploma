@@ -1,0 +1,59 @@
+/*
+ * flash.c
+ *
+ *  Created on: may 20, 2023
+ *      Author: Raouf
+ */
+// make external interrupt for external num0
+#define Base_INT 0x40010400												//base address for external interuupt
+#define EXTI_IMR 		*((volatile unsigned int*) (Base_INT+0x0))		//MRx interuupt mask register 0 masked 1 not masked
+#define EXTI_RTSR 		*((volatile unsigned int*) ( Base_INT + 0x08 )) //TRx Rising trigger selection register 1 enable
+#define EXTI_PR			*((volatile unsigned int*) (Base_INT+0x14))		//flash 1 for interrupt reguest to reset it write one
+
+
+
+// define for GPIo For port A
+#define Base 0x40021000
+#define GPIO 0x40010800
+#define AFIO_EXT1CR1     *((volatile unsigned int *) (Base+0x08))			//set input from GPIO to external interrupt 0000 for Pin 0 port A
+#define RCC_APB2ENR  	 *((volatile unsigned int *) (Base+0x18))
+#define GPIO_CRH     	 *((volatile unsigned int *) (GPIO+0x04))
+#define GPIO_ODR    	 *((volatile unsigned int *) (GPIO+0x0c))
+#define IOPAEN  	     (1<<2)
+typedef union{
+	int field;
+	struct
+	{
+		int reserved:13;
+		int P_13:1;
+	}bit;
+} R_ODR_t;
+volatile R_ODR_t *R_ODR=(volatile R_ODR_t *)(GPIO+0x0c);
+
+//Function SET_INT to set all Register For External interrupt.
+void SET_INT(void)
+{
+	EXTI_RTSR|=1<<0;
+
+}
+int main(void)
+{
+
+	RCC_APB2ENR|=IOPAEN;
+	GPIO_CRH&=0xff0fffff;
+	GPIO_CRH|=0x00200000;
+	while(1)
+	{	int i=0;
+		R_ODR->bit.P_13=0;
+		for(i=0;i<5000;i++);
+		R_ODR->bit.P_13=1;
+		for(i=0;i<5000;i++);
+
+
+	}
+
+}
+void EXTI0_IRQHandlr(void)
+{
+
+}

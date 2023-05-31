@@ -1,0 +1,23 @@
+15:28:36 **** Incremental Build of configuration Debug for project flashing_using_external_interuupt ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103x6 -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "flashing_using_external_interuupt.elf" @"objects.list"   -mcpu=cortex-m3 -T"F:\K.S\Embedded Project\using IDE\using external inteerrupt tp falshing led\flashing_using_external_interuupt\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="flashing_using_external_interuupt.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: flashing_using_external_interuupt.elf
+ 
+arm-none-eabi-objdump -h -S  flashing_using_external_interuupt.elf  > "flashing_using_external_interuupt.list"
+arm-none-eabi-objcopy  -O ihex  flashing_using_external_interuupt.elf  "flashing_using_external_interuupt.hex"
+arm-none-eabi-objcopy  -O binary  flashing_using_external_interuupt.elf  "flashing_using_external_interuupt.bin"
+arm-none-eabi-size   flashing_using_external_interuupt.elf 
+   text	   data	    bss	    dec	    hex	filename
+    944	     16	   1568	   2528	    9e0	flashing_using_external_interuupt.elf
+Finished building: default.size.stdout
+Finished building: flashing_using_external_interuupt.list
+Finished building: flashing_using_external_interuupt.hex
+Finished building: flashing_using_external_interuupt.bin
+ 
+ 
+ 
+ 
+
+15:28:37 Build Finished. 0 errors, 0 warnings. (took 890ms)
+
